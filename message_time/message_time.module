@@ -1,0 +1,33 @@
+<?php
+
+/**
+* @file
+* Contains message_time.module
+*/
+
+use Drupal\Core\Routing\RouteMatchInterface;
+/**
+*	Implements hook_help().
+*/
+function message_time_help($route_name, RouteMatchInterface $route_match) {
+	switch ($route_name) {
+		case 'help.page.message_time':
+			$output = '';
+			$output .= '<h3>' . t('About') . '</h3>';
+			$output .= '<p>' . t('My Awesome Module') . '</p>';
+			return $output;
+		
+		default:
+	}
+}
+
+/**
+* Implements hook_page_attachments().
+*/
+function message_time_page_attachments(array &$page) {
+	$config = \Drupal::config('message_time.settings');
+	
+	// Otherwise attach the timed messages library and pass the settings.
+	$page['#attached']['library'][] = 'message_time/message_time';
+	$page['#attached']['drupalSettings']['message_time']['message_fadeOut'] = $config->get('message_time');
+}
